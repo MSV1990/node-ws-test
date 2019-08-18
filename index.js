@@ -3,13 +3,8 @@ const port = process.env.PORT || 9000
 const target = 'ws://st-chat.shas.tel'
 const wss = new WS.Server({ port })
 
-wss.on("connection", function connection(inbound) {
+wss.on('connection', function connection(inbound) {
+
   const outbound = new WS(target)
-  const queue = []
-
-  console.log("websocket connection open")
-
-  wss.on("close", function() {
-    console.log("websocket connection close")
-  })
-})
+  console.log(outbound, inbound)
+}
