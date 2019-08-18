@@ -7,4 +7,4 @@ wss.on('connection', function connection(inbound) {
 
   const outbound = new WS(target)
   console.log(outbound, inbound)
-}
+});
