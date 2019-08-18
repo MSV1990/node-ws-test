@@ -1,28 +1,54 @@
-var WebSocketServer = require("ws").Server
-var http = require("http")
-var express = require("express")
-var app = express()
-var port = process.env.PORT || 5000
+const WS = require('ws')
+const port = process.env.PORT || 9000
+const target = 'ws://st-chat.shas.tel'
+const wss = new WS.Server({ port })
 
-app.use(express.static(__dirname + "/"))
+wss.on('connection', function connection(inbound) {
 
-var server = http.createServer(app)
-server.listen(port)
+  const outbound = new WS(target)
+  const queue = []
 
-console.log("http server listening on %d", port)
-
-var wss = new WebSocketServer({server: server})
-console.log("websocket server created")
-
-wss.on("connection", function(ws) {
-  var id = setInterval(function() {
-    ws.send(JSON.stringify(new Date()), function() {  })
-  }, 1000)
-
-  console.log("websocket connection open")
-
-  ws.on("close", function() {
-    console.log("websocket connection close")
-    clearInterval(id)
+  inbound.on('message', (message) => {
+    if(outbound.readyState === WS.OPEN){
+      outbound.send(message)
+    }else{
+      queue.push(message)
+    }
   })
-})
+
+  outbound.on('message', (message) => {
+    if(inbound.readyState === WS.OPEN)
+      inbound.send(message)
+  })
+
+  outbound.on('open', () => {
+    while(queue.length) {
+      const m = queue.shift()
+      outbound.send(m)
+    }
+  })
+
+  let clean = false
+  const cleanup = () => {
+    if(clean) return
+
+    console.log("Cleaning up connections")
+
+    if(inbound.readyState === WS.OPEN)
+      inbound.close()
+
+    if(outbound.readyState === WS.OPEN)
+      outbound.close()
+
+    while(queue.length) {queue.shift()}
+
+    clean = true
+  }
+
+  inbound.on('close', cleanup)
+  outbound.on('close', cleanup)
+
+  inbound.on('error', e => console.error(`inbound error: ${e}`))
+  outbound.on('error', e => console.error(`outbound error: ${e}`))
+
+});
