@@ -1,17 +1,19 @@
 {
-  "name": "node-ws-test",
-  "version": "0.0.1",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/heroku-examples/node-ws-test.git"
-  },
-  "dependencies": {
-    "ws": "0.4.x"
-  },
-  "engines": {
-    "node": "0.10.x"
-  },
+  "name": "test-ws",
+  "version": "1.0.0",
+  "description": "wss proxy",
+  "main": "index.js",
   "scripts": {
     "start": "node index.js"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MSV1990/node-ws-test.git"
+  },
+  "author": "msv1990",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MSV1990/node-ws-test/issues"
+  },
+  "homepage": "https://github.com/MSV1990/node-ws-test#readme"
 }
