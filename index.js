@@ -30,25 +30,25 @@ wss.on('connection', function connection(inbound) {
     }
   })
 
-  // let clean = false
-  // const cleanup = () => {
-  //   if(clean) return
+  let clean = false
+  const cleanup = () => {
+    if(clean) return
 
-  //   console.log("Cleaning up connections")
+    console.log("Cleaning up connections")
 
-  //   if(inbound.readyState === WS.OPEN)
-  //     inbound.close()
+    if(inbound.readyState === WS.OPEN)
+      inbound.close()
 
-  //   if(outbound.readyState === WS.OPEN)
-  //     outbound.close()
+    if(outbound.readyState === WS.OPEN)
+      outbound.close()
 
-  //   while(queue.length) {queue.shift()}
+    while(queue.length) {queue.shift()}
 
-  //   clean = true
-  // }
+    clean = true
+  }
 
-  // inbound.on('close', cleanup)
-  // outbound.on('close', cleanup)
+  inbound.on('close', cleanup)
+  outbound.on('close', cleanup)
 
   inbound.on('error', e => console.error(`inbound error: ${e}`))
   outbound.on('error', e => console.error(`outbound error: ${e}`))
