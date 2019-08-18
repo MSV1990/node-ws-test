@@ -1,5 +1,5 @@
-const WS = require('ws')
 require('dotenv').config();
+const WS = require('ws')
 const port = process.env.PORT || 9000
 const target = 'ws://st-chat.shas.tel'
 const wss = new WS.Server({ port })
@@ -53,3 +53,4 @@ wss.on('connection', function connection(inbound) {
   outbound.on('error', e => console.error(`outbound error: ${e}`))
 
 });
+console.warn('ok');

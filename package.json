@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "repository": {
     "type": "git",
-    "url": "https://github.com/MSV1990/node-ws-test.git"
+    "url": "https://github.com/heroku-examples/node-ws-test.git"
   },
   "dependencies": {
     "dotenv": "^8.1.0",
